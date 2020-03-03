@@ -14,7 +14,7 @@
 #define NUMCOLS 6
 
 
-byte buttons[NUMROWS][NUMCOLS] = {  //matrix defining button numbers as seen by Windows
+byte buttons[NUMROWS][NUMCOLS] = {  //Matrix defining button numbers as seen by Windows
   {28, 24, 13, 7, 20, 0},
   {27, 25, 14, 8, 21, 1},
   {30, 26, 15, 9, 22, 2},
