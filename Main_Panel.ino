@@ -14,7 +14,7 @@
 #define NUMCOLS 6
 
 
-byte buttons[NUMROWS][NUMCOLS] = {
+byte buttons[NUMROWS][NUMCOLS] = {  //matrix defining button numbers as seen by Windows
   {28, 24, 13, 7, 20, 0},
   {27, 25, 14, 8, 21, 1},
   {30, 26, 15, 9, 22, 2},
@@ -31,7 +31,7 @@ struct rotariesdef {
   volatile unsigned char state;
 };
 
-rotariesdef rotaries[NUMROTARIES] {
+rotariesdef rotaries[NUMROTARIES] {  //Physical pin 1, pin 3 of rotary encoders (pin 2 is ground)
   {0, 1},
   {4, 5},
   {6, 9},
@@ -88,8 +88,8 @@ const unsigned char ttable[7][4] = {
 };
 #endif
 
-byte rowPins[NUMROWS] = {13, 12, 8, 7, 3, 2};
-byte colPins[NUMCOLS] = {A5, A4, A3, A2, A1, A0};
+byte rowPins[NUMROWS] = {13, 12, 8, 7, 3, 2};  //Physical pins heading each row
+byte colPins[NUMCOLS] = {A5, A4, A3, A2, A1, A0};  //Pysical pins heading each column
 
 Keypad buttbx = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS);
 
@@ -133,9 +133,9 @@ void setup() {
   //Joystick.setThrottleRange(0, 255);
   //Joystick.setRudderRange(255, 0);
 
-  rotary_init();
-
   Joystick.begin();
+  
+  rotary_init();
 
 }
 
