@@ -14,13 +14,13 @@
 #define NUMCOLS 6
 
 
-byte buttons[NUMROWS][NUMCOLS] = {  //Matrix defining button numbers as seen by Windows
+byte buttons[NUMROWS][NUMCOLS] = {  //Matrix defining button numbers as seen by Windows, 0 is button 1 and so forth
   {28, 24, 13, 7, 20, 0},
   {27, 25, 14, 8, 21, 1},
   {30, 26, 15, 9, 22, 2},
-  {0, 29, 16, 10, 23, 3},
-  {0, 0, 17, 11, 5, 4},
-  {0, 0, 18, 12, 6, 19},
+  {0, 29, 16, 10, 23, 3},  //0 is dummy placeholder
+  {0, 0, 17, 11, 5, 4},   //0 is dummy placeholder
+  {0, 0, 18, 12, 6, 19},  //0 is dummy placeholder
 };
 
 struct rotariesdef {
@@ -48,6 +48,7 @@ rotariesdef rotaries[NUMROTARIES] {  //Physical pin 1, pin 3 of rotary encoders 
 #define R_START_M 0x3
 #define R_CW_BEGIN_M 0x4
 #define R_CCW_BEGIN_M 0x5
+
 const unsigned char ttable[6][4] = {
   // R_START (00)
   {R_START_M,            R_CW_BEGIN,     R_CCW_BEGIN,  R_START},
