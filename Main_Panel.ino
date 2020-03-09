@@ -92,7 +92,7 @@ const unsigned char ttable[7][4] = {
 byte rowPins[NUMROWS] = {13, 12, 8, 7, 3, 2};  //Physical pins heading each row
 byte colPins[NUMCOLS] = {A5, A4, A3, A2, A1, A0};  //Pysical pins heading each column
 
-Keypad buttbx = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS);
+Keypad panel = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS);
 
 Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
                    JOYSTICK_TYPE_JOYSTICK,
@@ -135,7 +135,7 @@ void setup() {
   //Joystick.setRudderRange(255, 0);
 
   Joystick.begin();
-  
+
   rotary_init();
 
 }
@@ -149,20 +149,20 @@ void loop() {
 }
 
 void CheckAllButtons(void) {
-  if (buttbx.getKeys())
+  if (panel.getKeys())
   {
     for (int i = 0; i < LIST_MAX; i++)
     {
-      if ( buttbx.key[i].stateChanged )
+      if ( panel.key[i].stateChanged )
       {
-        switch (buttbx.key[i].kstate) {
+        switch (panel.key[i].kstate) {
           case PRESSED:
           case HOLD:
-            Joystick.setButton(buttbx.key[i].kchar, 1);
+            Joystick.setButton(panel.key[i].kchar, 1);
             break;
           case RELEASED:
           case IDLE:
-            Joystick.setButton(buttbx.key[i].kchar, 0);
+            Joystick.setButton(panel.key[i].kchar, 0);
             break;
         }
       }
