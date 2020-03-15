@@ -94,20 +94,30 @@ byte colPins[NUMCOLS] = {A5, A4, A3, A2, A1, A0};  //Pysical pins heading each c
 
 Keypad panel = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS);
 
-Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
+/*
+  Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
                    JOYSTICK_TYPE_JOYSTICK,
                    31, 0, //Button count, HAT Switch Count
                    false, false, true, //X,Y,Z Axis
                    true, true, true, //X,Y,Z Rotation
                    false, false, //Rudder, Throttle
                    false, false, false); //Accelerator, Brake, Steering
+*/
+
+Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
+                   JOYSTICK_TYPE_JOYSTICK,
+                   31, 2, //Button count, HAT Switch Count
+                   false, false, false, //X,Y,Z Axis
+                   false, false, false, //X,Y,Z Rotation
+                   false, false, //Rudder, Throttle
+                   false, false, false); //Accelerator, Brake, Steering
 
 //int CurrentXAxisStep;
 //int CurrentYAxisStep;
-unsigned int CurrentZAxisStep;
-unsigned int CurrentRxAxisStep;
-unsigned int CurrentRyAxisStep;
-unsigned int CurrentRzAxisStep;
+//unsigned int CurrentZAxisStep;
+//unsigned int CurrentRxAxisStep;
+//unsigned int CurrentRyAxisStep;
+//unsigned int CurrentRzAxisStep;
 //unsigned int CurrentThrottleAxisStep;
 //unsigned int CurrentRudderAxisStep;
 
@@ -116,10 +126,10 @@ void setup() {
 
   //int CurrentXAxisStep = 0;
   //int CurrentYAxisStep = 0;
-  unsigned int CurrentZAxisStep = 0;
-  unsigned int CurrentRxAxisStep = 0;
-  unsigned int CurrentRyAxisStep = 0;
-  unsigned int CurrentRzAxisStep = 0;
+  //unsigned int CurrentZAxisStep = 0;
+  //unsigned int CurrentRxAxisStep = 0;
+  //unsigned int CurrentRyAxisStep = 0;
+  //unsigned int CurrentRzAxisStep = 0;
   //unsigned int CurrentThrottleAxisStep = 0;
   //unsigned int CurrentRudderAxisStep = 0;
 
@@ -127,10 +137,10 @@ void setup() {
   // Set Range Values
   //Joystick.setXAxisRange(-127, 127);
   //Joystick.setYAxisRange(-127, 127);
-  Joystick.setZAxisRange(0, 360);
-  Joystick.setRxAxisRange(0, 360);
-  Joystick.setRyAxisRange(0, 360);
-  Joystick.setRzAxisRange(0, 360);
+  //Joystick.setZAxisRange(0, 360);
+  //Joystick.setRxAxisRange(0, 360);
+  //Joystick.setRyAxisRange(0, 360);
+  //Joystick.setRzAxisRange(0, 360);
   //Joystick.setThrottleRange(0, 255);
   //Joystick.setRudderRange(255, 0);
 
@@ -142,7 +152,11 @@ void setup() {
 
 void loop() {
 
-  CheckAllEncoders();
+  //CheckAllEncoderAxes();
+
+  CheckEncoderHat1();
+
+  CheckEncoderHat2();
 
   CheckAllButtons();
 
@@ -189,7 +203,34 @@ unsigned char rotary_process(int _i) {
   return (rotaries[_i].state & 0x30);
 }
 
-void CheckAllEncoders(void) {
+void CheckEncoderHat1(void) {
+  for (int i = 0; i < 2; i++) {
+    unsigned char result = rotary_process(i);
+    if (result == DIR_CCW) {
+      Joystick.setHatSwitch(i, 90); delay(50); Joystick.setHatSwitch(i, -1);
+    };
+    if (result == DIR_CW) {
+      Joystick.setHatSwitch(i, 270); delay(50); Joystick.setHatSwitch(i, -1);
+    };
+  }
+}
+
+
+void CheckEncoderHat2(void) {
+  for (int i = 2; i < 4; i++) {
+    unsigned char result = rotary_process(i);
+    if (result == DIR_CCW) {
+      Joystick.setHatSwitch(i - 2, 0); delay(50); Joystick.setHatSwitch(i - 2, -1);
+    };
+    if (result == DIR_CW) {
+      Joystick.setHatSwitch(i - 2, 180); delay(50); Joystick.setHatSwitch(i - 2, -1);
+    };
+  }
+}
+
+//Code below used to turn encoders into axes
+/*
+  void CheckAllEncoderAxes(void) {
   for (int i = 0; i < NUMROTARIES; i++) {
     unsigned char result = rotary_process(i);
 
@@ -289,4 +330,5 @@ void CheckAllEncoders(void) {
       Joystick.setRzAxis(CurrentRzAxisStep);  //Sets new axis state
     };
   }
-}
+  }
+*/
