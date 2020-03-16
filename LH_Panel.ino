@@ -15,7 +15,7 @@
 
 
 byte buttons[NUMROWS][NUMCOLS] = {  //Matrix defining button numbers as seen by Windows, 0 is button 1 and so forth
-  {4, 3, 2, 1, 0, 0},    //0 is dummy placeholder
+  {4, 3, 2, 0, 1, 0},    //0 is dummy placeholder
   {7, 6, 5, 0, 0, 0},  //0 is dummy placeholder
   {19, 18, 16, 17, 14, 15},
   {13, 12, 10, 11, 8, 9},
