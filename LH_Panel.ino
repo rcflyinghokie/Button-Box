@@ -1,4 +1,4 @@
-//LH Panel Code
+//LH Upper Panel Code
 
 // Keypad - Version: Latest
 #include <Key.h>
@@ -19,7 +19,7 @@ byte buttons[NUMROWS][NUMCOLS] = {  //Matrix defining button numbers as seen by 
   {7, 6, 5, 0, 0, 0},  //0 is dummy placeholder
   {19, 18, 16, 17, 14, 15},
   {13, 12, 10, 11, 8, 9},
-  
+
 };
 
 struct rotariesdef {
@@ -31,7 +31,7 @@ struct rotariesdef {
 };
 
 rotariesdef rotaries[NUMROTARIES] {  //Physical pin 1, pin 3 of rotary encoders (pin 2 is ground); Buttons to press for CCW/CW
-  {0,1,20,21,0},
+  {0, 1, 20, 21, 0},
 };
 
 #define DIR_CCW 0x10
@@ -84,21 +84,22 @@ const unsigned char ttable[7][4] = {
 };
 #endif
 
-byte rowPins[NUMROWS] = {A0, A1, A2, A3}; 
-byte colPins[NUMCOLS] = {A4, A5, 8, 7, 3, 2}; 
+byte rowPins[NUMROWS] = {A0, A1, A2, A3};
+byte colPins[NUMCOLS] = {A4, A5, 8, 7, 3, 2};
 
-Keypad buttbx = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS); 
+Keypad buttbx = Keypad( makeKeymap(buttons), rowPins, colPins, NUMROWS, NUMCOLS);
 
-Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
-  JOYSTICK_TYPE_JOYSTICK, 22, 0,
-  false, false, false, false, false, false,
-  false, false, false, false, false);
+Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
+                   JOYSTICK_TYPE_JOYSTICK, 22, 0,
+                   false, false, false, false, false, false,
+                   false, false, false, false, false);
 
 void setup() {
   Joystick.begin();
-  rotary_init();}
+  rotary_init();
+}
 
-void loop() { 
+void loop() {
 
   CheckAllEncoders();
 
@@ -107,48 +108,48 @@ void loop() {
 }
 
 void CheckAllButtons(void) {
-      if (buttbx.getKeys())
+  if (buttbx.getKeys())
+  {
+    for (int i = 0; i < LIST_MAX; i++)
     {
-       for (int i=0; i<LIST_MAX; i++)   
-        {
-           if ( buttbx.key[i].stateChanged )   
-            {
-            switch (buttbx.key[i].kstate) {  
-                    case PRESSED:
-                    case HOLD:
-                              Joystick.setButton(buttbx.key[i].kchar, 1);
-                              break;
-                    case RELEASED:
-                    case IDLE:
-                              Joystick.setButton(buttbx.key[i].kchar, 0);
-                              break;
-            }
-           }   
-         }
-     }
+      if ( buttbx.key[i].stateChanged )
+      {
+        switch (buttbx.key[i].kstate) {
+          case PRESSED:
+          case HOLD:
+            Joystick.setButton(buttbx.key[i].kchar, 1);
+            break;
+          case RELEASED:
+          case IDLE:
+            Joystick.setButton(buttbx.key[i].kchar, 0);
+            break;
+        }
+      }
+    }
+  }
 }
 
 
 void rotary_init() {
-  for (int i=0;i<NUMROTARIES;i++) {
+  for (int i = 0; i < NUMROTARIES; i++) {
     pinMode(rotaries[i].pin1, INPUT);
     pinMode(rotaries[i].pin2, INPUT);
-    #ifdef ENABLE_PULLUPS
-      digitalWrite(rotaries[i].pin1, HIGH);
-      digitalWrite(rotaries[i].pin2, HIGH);
-    #endif
+#ifdef ENABLE_PULLUPS
+    digitalWrite(rotaries[i].pin1, HIGH);
+    digitalWrite(rotaries[i].pin2, HIGH);
+#endif
   }
 }
 
 
 unsigned char rotary_process(int _i) {
-   unsigned char pinstate = (digitalRead(rotaries[_i].pin2) << 1) | digitalRead(rotaries[_i].pin1);
+  unsigned char pinstate = (digitalRead(rotaries[_i].pin2) << 1) | digitalRead(rotaries[_i].pin1);
   rotaries[_i].state = ttable[rotaries[_i].state & 0xf][pinstate];
   return (rotaries[_i].state & 0x30);
 }
 
 void CheckAllEncoders(void) {
-  for (int i=0;i<NUMROTARIES;i++) {
+  for (int i = 0; i < NUMROTARIES; i++) {
     unsigned char result = rotary_process(i);
     if (result == DIR_CCW) {
       Joystick.setButton(rotaries[i].ccwchar, 1); delay(50); Joystick.setButton(rotaries[i].ccwchar, 0);
