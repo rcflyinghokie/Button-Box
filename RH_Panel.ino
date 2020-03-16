@@ -1,4 +1,4 @@
-//LH Knee Panel Code
+//RH Upper Panel Code
 
 // Keypad - Version: Latest
 #include <Key.h>
@@ -30,11 +30,11 @@ struct rotariesdef {
 };
 
 rotariesdef rotaries[NUMROTARIES] {  //Physical pin 1, pin 3 of rotary encoders (pin 2 is ground); Buttons to press for CCW/CW
-  {0, 1, 15, 16, 0},
-  {2, 3, 17, 18, 0},
-  {4, 5, 19, 20, 0},
-  {10, 16, 21, 22, 0},
-  {14, 15, 23, 24, 0},
+  {0, 1, 14, 15, 0},
+  {2, 3, 16, 17, 0},
+  {4, 5, 18, 19, 0},
+  {10, 16, 20, 21, 0},
+  {14, 15, 22, 23, 0},
 };
 
 #define DIR_CCW 0x10
