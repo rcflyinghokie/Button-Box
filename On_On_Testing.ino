@@ -34,8 +34,8 @@ Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
                    false, false,          // No rudder or throttle
                    false, false, false);  // No accelerator, brake, or steering
 
-//int TwoPosSwitch[] = {0, 2, 4, 6}; // List of all 2 position switch buttons wired
-//int ThreePosSwitch[] = {0, 2, 3, 5, 10, 12}; // List of all 3 position switch buttons wired
+int TwoPosSwitch[] = {0, 2, 4, 6}; // List of all 2 position switch buttons wired
+int ThreePosSwitch[] = {0, 2, 3, 5, 10, 12}; // List of all 3 position switch buttons wired
 int ButtonLookup = 0;
 
 void setup() {
@@ -44,7 +44,6 @@ void setup() {
 
 void loop() {
   CheckAllButtons();
-  //CheckTwoPos();
 }
 
 void CheckAllButtons(void) {
@@ -52,21 +51,38 @@ void CheckAllButtons(void) {
   {
     for (int i = 0; i < LIST_MAX; i++)
     {
-      ButtonLookup = ((buttbx.key[i].kchar)+1);
-      if ( buttbx.key[i].stateChanged )
+      ButtonLookup = ((buttbx.key[i].kchar) + 1);
+      if ( buttbx.key[i].stateChanged && (buttbx.key[i].kchar == 0 || buttbx.key[i].kchar == 2 || buttbx.key[i].kchar == 4))
       {
         switch (buttbx.key[i].kstate) {
           case PRESSED:
 
           case HOLD:
             Joystick.setButton(buttbx.key[i].kchar, 1);
-            Joystick.releaseButton((ButtonLookup));
+            Joystick.setButton((ButtonLookup), 0);
             break;
           case RELEASED:
 
           case IDLE:
             Joystick.setButton(buttbx.key[i].kchar, 0);
             Joystick.setButton((ButtonLookup), 1);
+            break;
+        }
+      }
+      else if ( buttbx.key[i].stateChanged && (buttbx.key[i].kchar == 6))
+      {
+        switch (buttbx.key[i].kstate) {
+          case PRESSED:
+
+          case HOLD:
+            Joystick.setButton(buttbx.key[i].kchar, 1);
+            //Joystick.releaseButton((ButtonLookup));
+            break;
+          case RELEASED:
+
+          case IDLE:
+            Joystick.setButton(buttbx.key[i].kchar, 0);
+            //Joystick.setButton((ButtonLookup), 1);
             break;
         }
       }
