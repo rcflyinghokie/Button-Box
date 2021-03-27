@@ -52,7 +52,7 @@ void CheckAllButtons(void) {
   {
     for (int i = 0; i < LIST_MAX; i++)
     {
-      ButtonLookup = i;
+      ButtonLookup = ((buttbx.key[i].kchar)+1);
       if ( buttbx.key[i].stateChanged )
       {
         switch (buttbx.key[i].kstate) {
@@ -60,13 +60,13 @@ void CheckAllButtons(void) {
 
           case HOLD:
             Joystick.setButton(buttbx.key[i].kchar, 1);
-            Joystick.setButton((ButtonLookup + 1), 0);
+            Joystick.releaseButton((ButtonLookup));
             break;
           case RELEASED:
 
           case IDLE:
             Joystick.setButton(buttbx.key[i].kchar, 0);
-            Joystick.setButton((ButtonLookup + 1), 1);
+            Joystick.setButton((ButtonLookup), 1);
             break;
         }
       }
