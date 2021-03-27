@@ -36,6 +36,7 @@ Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
 
 //int TwoPosSwitch[] = {0, 2, 4, 6}; // List of all 2 position switch buttons wired
 //int ThreePosSwitch[] = {0, 2, 3, 5, 10, 12}; // List of all 3 position switch buttons wired
+int ButtonLookup = 0;
 
 void setup() {
   Joystick.begin();
@@ -51,18 +52,21 @@ void CheckAllButtons(void) {
   {
     for (int i = 0; i < LIST_MAX; i++)
     {
+      ButtonLookup = i;
       if ( buttbx.key[i].stateChanged )
       {
         switch (buttbx.key[i].kstate) {
           case PRESSED:
-            Joystick.setButton(i + 1, 0);
+
           case HOLD:
             Joystick.setButton(buttbx.key[i].kchar, 1);
+            Joystick.setButton((ButtonLookup + 1), 0);
             break;
           case RELEASED:
-            Joystick.setButton(i + 1, 1);
+
           case IDLE:
             Joystick.setButton(buttbx.key[i].kchar, 0);
+            Joystick.setButton((ButtonLookup + 1), 1);
             break;
         }
       }
